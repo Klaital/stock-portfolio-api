@@ -20,3 +20,8 @@ func HashAndSalt(pwd string, cost int) (string, error) {
 	}
 	return string(hash), nil
 }
+
+func (u *User) CheckPassword(password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(u.PasswordDigest), []byte(password))
+	return err == nil
+}

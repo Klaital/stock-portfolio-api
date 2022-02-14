@@ -18,6 +18,7 @@ CREATE TABLE positions (
                            symbol VARCHAR(8) NOT NULL,
                            bought_at DATETIME,
                            basis INTEGER NOT NULL DEFAULT 0,
+                           qty FLOAT NOT NULL,
 
                            FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
