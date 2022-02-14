@@ -11,16 +11,16 @@ CREATE TABLE users (
 CREATE INDEX users_email ON users(email);
 
 CREATE TABLE positions (
-                           position_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                           created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-                           updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-                           user_id INTEGER NOT NULL,
-                           symbol VARCHAR(8) NOT NULL,
-                           bought_at DATETIME,
-                           basis INTEGER NOT NULL DEFAULT 0,
-                           qty FLOAT NOT NULL,
+   position_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+   updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+   user_id INTEGER NOT NULL,
+   symbol VARCHAR(8) NOT NULL,
+   bought_at DATETIME,
+   basis VARCHAR(24) NOT NULL DEFAULT '0',
+   qty VARCHAR(24) NOT NULL,
 
-                           FOREIGN KEY (user_id) REFERENCES users(user_id)
+   FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE INDEX user_positions ON positions(user_id);
