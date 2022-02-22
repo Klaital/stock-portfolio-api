@@ -20,7 +20,7 @@ func (s StockPrice) TodayWithChange() string {
 		prefix = ""
 	}
 
-	return fmt.Sprintf("%s (%s%s)", s.Today.String(), prefix, s.Today.Sub(s.Yesterday))
+	return fmt.Sprintf("%s (%s%s)", s.Today.Round(2).String(), prefix, s.Today.Sub(s.Yesterday).Round(2))
 }
 
 func (s StockPrice) TodayWithChangeByQty(qty decimal.Decimal) string {
@@ -29,5 +29,5 @@ func (s StockPrice) TodayWithChangeByQty(qty decimal.Decimal) string {
 		prefix = ""
 	}
 
-	return fmt.Sprintf("%s (%s%s)", s.Today.Mul(qty), prefix, s.Delta().Mul(qty))
+	return fmt.Sprintf("%s (%s%s)", s.Today.Mul(qty).Round(2), prefix, s.Delta().Mul(qty).Round(2))
 }
