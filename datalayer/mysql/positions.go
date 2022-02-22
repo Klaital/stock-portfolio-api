@@ -2,11 +2,12 @@ package mysql
 
 import (
 	"github.com/klaital/stock-portfolio-api/datalayer"
+	"github.com/shopspring/decimal"
 	log "github.com/sirupsen/logrus"
 	"time"
 )
 
-func (store *DataStore) AddPosition(userId uint64, symbol string, qty float64, basis uint64, boughtAt *time.Time) error {
+func (store *DataStore) AddPosition(userId uint64, symbol string, qty decimal.Decimal, basis decimal.Decimal, boughtAt time.Time) error {
 	_, err := store.db.ExecContext(store.ctx, `INSERT INTO positions (user_id, symbol, qty, basis, bought_at) VALUES (?, ?, ?, ?, ?)`, userId, symbol, qty, basis, boughtAt)
 	return err
 }

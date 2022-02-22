@@ -28,6 +28,7 @@ func main() {
 	viper.SetDefault("LOG_LEVEL", "debug")
 	viper.SetDefault("LOG_PRETTY", false)
 	viper.SetDefault("REALM", "local")
+	viper.SetDefault("NASDAQ_API_KEY", "")
 
 	viper.BindEnv("DB_HOST")
 	viper.BindEnv("DB_USER")
@@ -37,6 +38,7 @@ func main() {
 	viper.BindEnv("LOG_LEVEL")
 	viper.BindEnv("LOG_PRETTY")
 	viper.BindEnv("REALM")
+	viper.BindEnv("FINNHUB_API_KEY")
 
 	logLevel, err := log.ParseLevel(viper.GetString("LOG_LEVEL"))
 	if err != nil {
@@ -62,21 +64,7 @@ func main() {
 
 	switch os.Args[1] {
 	case "add-stock":
-		addNewPositionCmd := flag.NewFlagSet("add-stock", flag.ExitOnError)
-		addParams := struct {
-			userId   uint64
-			symbol   string
-			qty      float64
-			boughtAt string
-			basis    uint64
-		}{}
-		addNewPositionCmd.StringVar(&addParams.symbol, "sym", "", "Stock Symbol")
-		addNewPositionCmd.Float64Var(&addParams.qty, "qty", 0.0, "Quantity bought")
-		addNewPositionCmd.StringVar(&addParams.symbol, "at", "", "When was the stock bought. Use ISO8601 - YYYY-MM-DD")
-		addNewPositionCmd.Uint64Var(&addParams.userId, "user", 0, "User ID")
-		addNewPositionCmd.Parse(os.Args[2:])
-
-		addPosition(datastore, addParams.userId, addParams.symbol, addParams.qty, addParams.basis, addParams.boughtAt)
+		addPosition(datastore)
 	case "list-positions":
 		listPositionsCmd := flag.NewFlagSet("list-positions", flag.ExitOnError)
 		listParams := struct {

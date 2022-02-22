@@ -1,6 +1,9 @@
 package datalayer
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 type StockStore interface {
 	// Users
@@ -10,5 +13,5 @@ type StockStore interface {
 
 	// Stock Positions
 	GetPositionsByUser(userId uint64) ([]Position, error)
-	AddPosition(userId uint64, symbol string, qty float64, basis uint64, boughtAt *time.Time) error
+	AddPosition(userId uint64, symbol string, qty decimal.Decimal, basis decimal.Decimal, boughtAt time.Time) error
 }

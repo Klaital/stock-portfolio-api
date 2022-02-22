@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"github.com/klaital/stock-portfolio-api/datalayer"
+	"github.com/shopspring/decimal"
 	"time"
 )
 
@@ -9,7 +10,7 @@ func (suite *DataStoreSuite) TestAddPosition() {
 	suite.NoError(suite.Store.AddUser("test@example.org", "nopass"), "Failed to setup user")
 	u, err := suite.Store.GetUserByEmail("test@example.org")
 	suite.NoError(err, "Failed to fetch test user")
-	err = suite.Store.AddPosition(u.ID, "TMUS", 5, 12450, nil)
+	err = suite.Store.AddPosition(u.ID, "TMUS", decimal.NewFromInt(5), decimal.NewFromInt(12450), time.Now())
 	suite.NoError(err, "Failed to insert new position")
 }
 
@@ -20,10 +21,9 @@ func (suite *DataStoreSuite) TestGetPositionsBySymbol() {
 	suite.NoError(suite.Store.AddUser("test@example.org", "nopass"), "Failed to setup user")
 	u, err = suite.Store.GetUserByEmail("test@example.org")
 	suite.NoError(err, "Failed to fetch test user")
-	t := time.Now()
-	err = suite.Store.AddPosition(u.ID, "TMUS", 5, 12450, &t)
-	err = suite.Store.AddPosition(u.ID, "GOOG", 15, 12650, &t)
-	err = suite.Store.AddPosition(u.ID, "GOOG", 25, 12750, &t)
+	suite.Store.AddPosition(u.ID, "TMUS", decimal.NewFromInt(5), decimal.NewFromInt(12450), time.Now())
+	suite.Store.AddPosition(u.ID, "GOOG", decimal.NewFromInt(15), decimal.NewFromInt(12650), time.Now())
+	suite.Store.AddPosition(u.ID, "GOOG", decimal.NewFromInt(25), decimal.NewFromInt(12750), time.Now())
 
 	positions, err = suite.Store.GetPositionsBySymbol(u.ID, "TMUS")
 	suite.NoError(err, "Failed to fetch positions")
@@ -47,10 +47,9 @@ func (suite *DataStoreSuite) TestGetPositionsByUser() {
 	suite.NoError(suite.Store.AddUser("test@example.org", "nopass"), "Failed to setup user")
 	u, err = suite.Store.GetUserByEmail("test@example.org")
 	suite.NoError(err, "Failed to fetch test user")
-	t := time.Now()
-	err = suite.Store.AddPosition(u.ID, "TMUS", 5, 12450, &t)
-	err = suite.Store.AddPosition(u.ID, "GOOG", 15, 12650, &t)
-	err = suite.Store.AddPosition(u.ID, "GOOG", 25, 12750, &t)
+	suite.Store.AddPosition(u.ID, "TMUS", decimal.NewFromInt(5), decimal.NewFromInt(12450), time.Now())
+	suite.Store.AddPosition(u.ID, "GOOG", decimal.NewFromInt(15), decimal.NewFromInt(12650), time.Now())
+	suite.Store.AddPosition(u.ID, "GOOG", decimal.NewFromInt(25), decimal.NewFromInt(12750), time.Now())
 
 	positions, err = suite.Store.GetPositionsByUser(u.ID)
 	suite.NoError(err, "Failed to fetch positions")
