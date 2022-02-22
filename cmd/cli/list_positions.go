@@ -25,8 +25,8 @@ func listPositions(datastore datalayer.StockStore, userId uint64) {
 		if err != nil {
 			log.WithField("sym", p.Symbol).WithError(err).Fatal("Failed to fetch stock price")
 		}
-		total.Today = total.Today.Add(closePrice.Today)
-		total.Yesterday = total.Yesterday.Add(closePrice.Yesterday)
+		total.Today = total.Today.Add(closePrice.Today.Mul(p.Qty))
+		total.Yesterday = total.Yesterday.Add(closePrice.Yesterday.Mul(p.Qty))
 
 		fmt.Printf("%s\t%s\t%s\t%s\t%s\n", p.Symbol, p.Qty.String(), p.Basis.String(), closePrice.TodayWithChange(), closePrice.TodayWithChangeByQty(p.Qty))
 	}
