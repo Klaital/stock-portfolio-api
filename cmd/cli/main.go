@@ -20,6 +20,13 @@ type config struct {
 
 func main() {
 
+	viper.SetConfigFile(".env")
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("./run/")
+	if err := viper.ReadInConfig(); err != nil {
+		log.WithError(err).Fatal("Failed to read config file")
+	}
+
 	viper.SetDefault("DB_HOST", "localhost")
 	viper.SetDefault("DB_USER", "localreader")
 	viper.SetDefault("DB_PASSWORD", "nopassword")
